@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 
 import { Header } from './header/header';
 import { RouterOutlet } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http'; // ✅ import this
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
