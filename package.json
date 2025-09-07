@@ -7,8 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "preview": "ng build --base-href '/' && http-server dist/Angular-Tutorial/browser -o",
-    "deploy": "ng build --base-href 'https://karthick-sivasamy.github.io/Angular-Tutorial/' && npx angular-cli-ghpages --dir=dist/Angular-Tutorial/browser"
+    "preview": "ng build --base-href /Angular-Tutorial/ && http-server dist/Angular-Tutorial -o ",
+    "deploy": "ng build --base-href /Angular-Tutorial --output-path docs"
   },
   "prettier": {
     "printWidth": 100,

@@ -1,0 +1,7 @@
+{
+  "routes": {
+    "/": true,
+    "/crud": true,
+    "/api": true
+  }
+}
