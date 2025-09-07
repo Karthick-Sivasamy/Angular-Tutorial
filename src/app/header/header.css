@@ -1,0 +1,29 @@
+header {
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid;
+  height: 60px;
+  padding: 0 2rem;
+}
+
+h2 {
+  color: #ff0000;
+}
+
+.nav-container {
+  display: flex;
+  gap: 2rem;
+}
+
+a {
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+a.active {
+  font-weight: bold;
+  color: blue;
+}

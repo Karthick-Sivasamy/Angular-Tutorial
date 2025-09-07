@@ -1,0 +1,144 @@
+@if(addUserBoolean){
+<div class="modal-container" (click)="closeModal()"></div>
+<form class="modal" [formGroup]="userForm">
+  <h4 class="user-modal-title">Create New User</h4>
+  <div class="user-modal-input-container">
+    <h4>Name</h4>
+    <input
+      id="name"
+      type="text"
+      placeholder="Enter the user name"
+      formControlName="name"
+      minlength="3"
+      (keydown)="allowOnlyAlphabets($event)"
+      (paste)="blockInvalidPaste($event)"
+    />
+    <div class="error">
+      @if (formSubmitted && userForm.controls['name'].errors?.['required']){
+      <span>This is required</span>} @if (formSubmitted &&
+      userForm.controls['name'].errors?.['minlength']) {
+      <span>Name must be at least 3 characters.</span>
+      } @if (formSubmitted && userForm.controls['name'].errors?.['pattern']) {
+      <span>Contact number must be in 10 digits</span>
+      }
+    </div>
+  </div>
+  <div class="user-modal-input-container">
+    <h4>Email</h4>
+    <input formControlName="email" type="text" placeholder="Enter the email" autocomplete="off" />
+    <div class="error">
+      @if(formSubmitted && userForm.controls['email'].errors?.['required']){
+      <span>This is required</span>
+      } @if(formSubmitted && userForm.controls['email'].errors?.['email']){
+      <span>Please enter a valid email address.</span> } @if(formSubmitted &&
+      userForm.controls['email'].errors?.['emailTaken']){
+      <span>This email is already taken.</span> }
+    </div>
+  </div>
+  <div class="user-modal-input-container">
+    <h4>Date of birth</h4>
+    <input id="dateOfBirth" formControlName="dateOfBirth" type="date" [max]="today" />
+    <div class="error">
+      @if (formSubmitted && userForm.controls['dateOfBirth'].errors?.['required']){
+      <span>This is required</span>}
+    </div>
+  </div>
+  <div class="user-modal-input-container">
+    <h4>Contact number</h4>
+    <input
+      formControlName="contactNumber"
+      type="text"
+      placeholder="Enter the 10 digit contact number"
+      autocomplete="off"
+      pattern="[0-9]*"
+      (keypress)="allowOnlyNumbers($event)"
+      (paste)="onPasteNumber($event)"
+    />
+    <div class="error">
+      @if (formSubmitted && userForm.controls['contactNumber'].errors?.['required']){
+      <span>This is required</span>} @if (formSubmitted &&
+      userForm.controls['contactNumber'].errors?.['pattern']) {
+      <span>Contact number must be in 10 digits</span>
+      }
+    </div>
+  </div>
+  <div class="user-modal-input-container">
+    <div>
+      <h4>Description</h4>
+      <p>{{ descriptionLength }}/100</p>
+    </div>
+    <textarea
+      formControlName="description"
+      rows="3"
+      cols="3"
+      placeholder="Enter the description"
+      autocomplete="off"
+      (keypress)="onDescriptionChange($event)"
+      (paste)="onDescriptionPaste($event)"
+    ></textarea>
+    <div class="error">
+      @if (formSubmitted && userForm.controls['description'].errors?.['maxlength']) {
+      <span>Description should not exceed 100 characters</span>
+      }
+    </div>
+  </div>
+
+  <div class="user-modal-button-container">
+    <button type="button" (click)="closeModal()">Cancel</button>
+    <button type="submit" class="user-modal-create-button" (click)="onFormSubmit()">Submit</button>
+  </div>
+</form>
+}
+
+<div class="users-container">
+  <h2 class="users-title">Users CRUD</h2>
+  <div class="users-inner-container">
+    <div class="users-name-container">
+      <button class="user-name-card add-user-button" (click)="openModal()">Add user</button>
+      @for (user of users; track user.id) {
+      <div
+        class="user-name-card"
+        (click)="onSelectUser(user.id)"
+        [class.active]="selectedId == user.id"
+      >
+        {{ user.name }} - {{ user.email }}
+      </div>
+      }
+    </div>
+    <div class="users-details-container">
+      @if(selectedId == ''){
+      <div class="users-no-select-message">select an user to view the details</div>
+      }@else{
+      <div class="user-details-content">
+        <div class="user-detail-inner-card">
+          <p class="user-detail-inner-card-title">Name</p>
+          <p>{{ getSelectedUser.name }}</p>
+        </div>
+        <div class="user-detail-inner-card">
+          <p class="user-detail-inner-card-title">Email</p>
+          <p>{{ getSelectedUser.email }}</p>
+        </div>
+        <div class="user-detail-inner-card">
+          <p class="user-detail-inner-card-title">Date Of Birth</p>
+          <p>{{ getSelectedUser.dateOfBirth }}</p>
+        </div>
+        <div class="user-detail-inner-card">
+          <p class="user-detail-inner-card-title">Contact No</p>
+          <p>{{ getSelectedUser.contactNumber }}</p>
+        </div>
+        <div class="user-detail-inner-card user-detail-description-container">
+          <p class="user-detail-inner-card-title">Description</p>
+
+          <p>{{ getSelectedUser.description }}</p>
+        </div>
+      </div>
+      <div class="user-content-action-button-container">
+        <button (click)="onUserEdit(getSelectedUser.id)">Edit</button>
+        <button class="user-content-delete-btn" (click)="deleteUser(getSelectedUser.id)">
+          Delete
+        </button>
+      </div>
+      }
+    </div>
+  </div>
+</div>
